@@ -1,0 +1,6 @@
+<Bindings>
+  <Binding category='BINDING_HEADER_ELVUI' name='Toggle UI'>
+    ToggleAuras();
+    ToggleMinimap();
+  </Binding>
+</Bindings>

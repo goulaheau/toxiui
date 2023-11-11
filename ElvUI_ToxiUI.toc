@@ -2,8 +2,8 @@
 ## Notes: Minimalistic ElvUI Edit by |cff18a8ffToxi|r
 ## Author: Toxi (Toxi#21206)
 ## Version: 6.5.0
-## RequiredDeps: ElvUI, ElvUI_WindTools
-## OptionalDeps: Details, Plater
+## RequiredDeps: ElvUI
+## OptionalDeps: Details, Plater, ElvUI_WindTools
 ## IconTexture: Interface\AddOns\ElvUI_ToxiUI\Media\Backgrounds\Logos\LogoSmall.tga
 ## DefaultState: Enabled
 ## Interface: 100200

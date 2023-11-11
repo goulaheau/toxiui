@@ -72,7 +72,7 @@ function PF:BuildProfile()
   end
 
   -- Special Case: ToxiUIWAAnchor
-  local WAAnchorY = { 329, 359 }
+  local WAAnchorY = { 229, 259 }
 
   local defaultPadding = 5
   local IsNewLayout = E.db.TXUI.installer.layoutStyle == I.Enum.LayoutStyle.NEW
@@ -102,12 +102,12 @@ function PF:BuildProfile()
 
       -- Movers: Action Bars
       ElvAB_1 = F.Position("BOTTOM", "ElvUIParent", "BOTTOM", 0, 45),
-      ElvAB_6 = F.Position("BOTTOMRIGHT", "ElvAB_1", "BOTTOMLEFT", -defaultPadding * 4, 0), -- Close Left
-      ElvAB_5 = F.Position("BOTTOMLEFT", "ElvAB_1", "BOTTOMRIGHT", defaultPadding * 4, 0), -- Close Right
-      ElvAB_3 = F.Position("BOTTOMRIGHT", "ElvAB_6", "BOTTOMLEFT", -defaultPadding * 4, 0), -- Far Left
-      ElvAB_4 = F.Position("BOTTOMLEFT", "ElvAB_5", "BOTTOMRIGHT", defaultPadding * 4, 0), -- Far Right
+      ElvAB_2 = F.Position("BOTTOM", "ElvAB_1", "TOP", 0, 2),
+      ElvAB_3 = F.Position("BOTTOM", "ElvAB_2", "TOP", 0, 2),
+      ElvAB_4 = F.Position("BOTTOM", "ElvAB_3", "TOP", 0, 2),
+      ElvAB_5 = F.Position("BOTTOMRIGHT", "ElvAB_1", "BOTTOMLEFT", -defaultPadding * 4, 0),
+      ElvAB_6 = F.Position("BOTTOMLEFT", "ElvAB_1", "BOTTOMRIGHT", defaultPadding * 4, 0),
 
-      ElvAB_2 = F.Position("TOPRIGHT", "ElvUIParent", "TOPRIGHT", -37, -401), -- Unused
       ElvAB_7 = F.Position("TOPRIGHT", "ElvUIParent", "TOPRIGHT", -73, -401), -- Unused
       ElvAB_8 = F.Position("TOPRIGHT", "ElvUIParent", "TOPRIGHT", -109, -401), -- Unused
       ElvAB_9 = F.Position("TOPRIGHT", "ElvUIParent", "TOPRIGHT", -144, -401), -- Unused
@@ -119,10 +119,10 @@ function PF:BuildProfile()
       ShiftAB = F.Position("BOTTOM", "ElvAB_1", "TOP", 0, defaultPadding),
 
       -- Movers: UnitFrames
-      ElvUF_PlayerMover = F.Position("BOTTOM", "ElvUIParent", "BOTTOM", -325, 350),
+      ElvUF_PlayerMover = F.Position("BOTTOM", "ElvUIParent", "BOTTOM", -325, 250),
       ElvUF_PlayerCastbarMover = F.Position("TOPLEFT", "ElvUF_Player", "BOTTOMLEFT", 0, -defaultPadding),
 
-      ElvUF_TargetMover = F.Position("BOTTOM", "ElvUIParent", "BOTTOM", 325, 350),
+      ElvUF_TargetMover = F.Position("BOTTOM", "ElvUIParent", "BOTTOM", 325, 250),
       ElvUF_TargetCastbarMover = F.Position("TOPRIGHT", "ElvUF_Target", "BOTTOMRIGHT", 0, -defaultPadding),
       TargetPowerBarMover = F.Position("LEFT", "ElvUF_Target", "BOTTOMLEFT", 10, 0),
 
@@ -151,7 +151,7 @@ function PF:BuildProfile()
       ElvUF_AssistMover = F.Position("TOPLEFT", "ElvUF_TankMover", "BOTTOMLEFT", 0, -defaultPadding),
 
       -- Movers: Chat
-      LeftChatMover = F.Position("BOTTOMLEFT", "ElvUIParent", "BOTTOMLEFT", defaultPadding, 60),
+      LeftChatMover = F.Position("BOTTOMLEFT", "ElvUIParent", "BOTTOMLEFT", 1, 1),
       RightChatMover = F.Position("BOTTOMRIGHT", "ElvUIParent", "BOTTOMRIGHT", -defaultPadding, 60),
 
       -- Movers: Bags
@@ -166,9 +166,9 @@ function PF:BuildProfile()
       BelowMinimapContainerMover = F.Position("TOPLEFT", "ElvUIParent", "TOPLEFT", 195, -220),
       BNETMover = F.Position("TOPRIGHT", "MinimapMover", "TOPLEFT", -defaultPadding, 0),
       GMMover = F.Position("TOPRIGHT", "BNETMover", "BOTTOMRIGHT", 0, -defaultPadding),
-      MinimapMover = F.Position("TOPRIGHT", "ElvUIParent", "TOPRIGHT", -defaultPadding, -defaultPadding),
+      MinimapMover = F.Position("TOPRIGHT", "ElvUIParent", "TOPRIGHT", -1, -1),
       ObjectiveFrameMover = F.Position("TOPRIGHT", "ElvUIParent", "TOPRIGHT", -70, -270),
-      TooltipMover = F.Position("BOTTOMRIGHT", "RightChatMover", "TOPRIGHT", -15, 100),
+      TooltipMover = F.Position("BOTTOMRIGHT", "ElvUIParent", "BOTTOMRIGHT", 1, 1),
       TopCenterContainerMover = F.Position("TOP", "ElvUIParent", "TOP", 0, -35),
       VOICECHAT = F.Position("TOPLEFT", "DebuffsMover", "BOTTOMLEFT", 0, -defaultPadding),
 
@@ -284,6 +284,7 @@ function PF:BuildProfile()
     -- AddOn Compartment
     addonCompartment = {
       size = 24,
+      hide = true,
     },
 
     customGlow = {
@@ -293,6 +294,11 @@ function PF:BuildProfile()
       size = 2,
       speed = 0.3,
     },
+  })
+
+  -- Chat
+  F.Table.Crush(pf.chat, {
+    editBoxPosition = "BELOW_CHAT_INSIDE",
   })
 
   -- Tooltip
@@ -510,15 +516,6 @@ function PF:BuildProfile()
           text_format = "[tx:health:current:shortvalue] || [tx:health:percent:nosign]",
           yOffset = F.ChooseForTheme(F.Dpi(27), F.Dpi(0)),
         }),
-
-        -- UnitFrame Player Custom Texts Class Icon
-        ["!ClassIcon"] = createCustomText({}, {
-          justifyH = "LEFT",
-          attachTextTo = "Health",
-          text_format = "[tx:classicon]",
-          xOffset = F.ChooseForTheme(F.Dpi(5), F.Dpi(-32)),
-          yOffset = F.ChooseForTheme(F.Dpi(0), F.Dpi(-16)),
-        }),
       },
 
       -- UnitFrame Player Debuffs
@@ -660,10 +657,6 @@ function PF:BuildProfile()
           text_format = "[tx:health:percent:nosign]",
           yOffset = F.ChooseForTheme(F.Dpi(15), F.Dpi(15)),
         },
-        ["!ClassIcon"] = {
-          xOffset = F.ChooseForTheme(F.Dpi(5), F.Dpi(-10)),
-          yOffset = F.ChooseForTheme(F.Dpi(0), F.Dpi(-16)),
-        },
       },
 
       raidRoleIcons = {
@@ -718,15 +711,6 @@ function PF:BuildProfile()
           yOffset = F.Dpi(0),
         }),
 
-        -- UnitFrame Target Custom Texts Class Icon
-        ["!ClassIcon"] = createCustomText({}, {
-          justifyH = "RIGHT",
-          attachTextTo = "Health",
-          text_format = "[tx:classicon]",
-          xOffset = F.ChooseForTheme(F.Dpi(-5), F.Dpi(32)),
-          yOffset = F.ChooseForTheme(F.Dpi(0), F.Dpi(-16)),
-        }),
-
         -- UnitFrame Target Custom Texts Classification
         ["!Classification"] = createCustomText({}, {
           justifyH = "RIGHT",
@@ -741,11 +725,13 @@ function PF:BuildProfile()
       buffs = {
         anchorPoint = "TOPRIGHT",
         growthX = "LEFT",
+        attachTo = "DEBUFFS",
         perrow = 7,
+        numrows = 10,
         priority = "Blacklist,Personal,Boss,nonPersonal,CastByUnit",
         spacing = 0,
         xOffset = 0,
-        yOffset = F.Dpi(60),
+        yOffset = F.Dpi(10),
 
         -- Stack Counter
         countPosition = "BOTTOM",
@@ -764,6 +750,7 @@ function PF:BuildProfile()
         durationPosition = "CENTER",
         maxDuration = 0,
         perrow = 7,
+        numrows = 10,
         priority = "Blacklist,Boss,Personal,RaidDebuffs,CastByUnit,CCDebuffs",
         spacing = 0,
         xOffset = 0,
@@ -852,10 +839,6 @@ function PF:BuildProfile()
         ["!Health"] = {
           text_format = "[tx:health:percent:nosign]",
           yOffset = F.ChooseForTheme(F.Dpi(15), F.Dpi(15)),
-        },
-        ["!ClassIcon"] = {
-          xOffset = F.ChooseForTheme(F.Dpi(-5), F.Dpi(10)),
-          yOffset = F.ChooseForTheme(F.Dpi(0), F.Dpi(-16)),
         },
         ["!Classification"] = {
           yOffset = F.ChooseForTheme(F.Dpi(25), F.Dpi(15)),
@@ -1037,15 +1020,6 @@ function PF:BuildProfile()
           xOffset = F.Dpi(85),
           yOffset = F.Dpi(0),
         }),
-
-        -- UnitFrame Focus Custom Texts Class Icon
-        ["!ClassIcon"] = createCustomText({}, {
-          justifyH = "RIGHT",
-          attachTextTo = "Health",
-          text_format = "[tx:classicon]",
-          xOffset = F.ChooseForTheme(F.Dpi(-5), F.Dpi(27)),
-          yOffset = 0,
-        }),
       },
 
       -- UnitFrame Focus Buffs
@@ -1143,10 +1117,6 @@ function PF:BuildProfile()
           text_format = "[tx:health:percent:nosign]",
           yOffset = F.ChooseForTheme(F.Dpi(15), F.Dpi(20)),
         },
-        ["!ClassIcon"] = {
-          xOffset = F.ChooseForTheme(F.Dpi(-5), F.Dpi(10)),
-          yOffset = F.ChooseForTheme(F.Dpi(0), F.Dpi(-16)),
-        },
       },
     })
   )
@@ -1199,15 +1169,6 @@ function PF:BuildProfile()
           text_format = F.ChooseForTheme("[tx:smartpower:percent:nosign]", "[tx:power:percent:nosign]"),
           xOffset = F.Dpi(10),
           yOffset = F.Dpi(0),
-        }),
-
-        -- UnitFrame Party Custom Texts Class Icon
-        ["!ClassIcon"] = createCustomText({}, {
-          justifyH = "LEFT",
-          attachTextTo = "Health",
-          text_format = "[tx:classicon]",
-          xOffset = F.Dpi(10),
-          yOffset = 0,
         }),
       },
 
@@ -1396,10 +1357,6 @@ function PF:BuildProfile()
         ["!Health"] = {
           text_format = "[tx:health:percent:nosign]",
           yOffset = F.ChooseForTheme(F.Dpi(15), F.Dpi(15)),
-        },
-        ["!ClassIcon"] = {
-          xOffset = F.ChooseForTheme(F.Dpi(5), F.Dpi(-10)),
-          yOffset = F.ChooseForTheme(F.Dpi(0), F.Dpi(-16)),
         },
       },
 
@@ -1996,7 +1953,7 @@ function PF:BuildProfile()
     buttons = 12,
     buttonSize = F.Dpi(32), -- Width
     buttonHeight = F.Dpi(24),
-    buttonsPerRow = 6,
+    buttonsPerRow = 12,
 
     hotkeytext = true,
     hotkeyTextPosition = "TOPRIGHT",
@@ -2031,6 +1988,8 @@ function PF:BuildProfile()
     macroTextPosition = "BOTTOM",
     macroTextYOffset = F.Dpi(0),
 
+    enabled = true,
+
     visibility = TXUI.IsRetail and "[petbattle] hide; show" or "show",
   }
 
@@ -2039,35 +1998,25 @@ function PF:BuildProfile()
   end
 
   -- ActionBar Bar1
-  pf.actionbar.bar1 = createMainActionBar {
-    enabled = true,
-  }
+  pf.actionbar.bar1 = createMainActionBar {}
 
   -- ActionBar Bar2
-  pf.actionbar.bar2 = createMainActionBar {
-    enabled = false,
-  }
+  pf.actionbar.bar2 = createMainActionBar {}
 
   -- ActionBar Bar3
-  pf.actionbar.bar3 = createMainActionBar {
-    enabled = true,
-    buttonsPerRow = 4,
-  }
+  pf.actionbar.bar3 = createMainActionBar {}
 
   -- ActionBar Bar4
-  pf.actionbar.bar4 = createMainActionBar {
-    enabled = true,
-    buttonsPerRow = 4,
-  }
+  pf.actionbar.bar4 = createMainActionBar {}
 
   -- ActionBar Bar5
   pf.actionbar.bar5 = createMainActionBar {
-    enabled = true,
+    buttonsPerRow = 3,
   }
 
   -- ActionBar Bar6
   pf.actionbar.bar6 = createMainActionBar {
-    enabled = true,
+    buttonsPerRow = 3,
   }
 
   -- ActionBar Bar7 (Stance Bar)
@@ -2253,8 +2202,6 @@ function PF:UpdateProfileForTheme()
   F.UpdateDBFromPath(pf, "unitframe.units.focus.customTexts.!Health", "yOffset")
   F.UpdateDBFromPath(pf, "unitframe.units.focus.customTexts.!Name", "yOffset")
   F.UpdateDBFromPath(pf, "unitframe.units.focus.customTexts.!Power", "text_format")
-  F.UpdateDBFromPath(pf, "unitframe.units.focus.customTexts.!ClassIcon", "xOffset")
-  F.UpdateDBFromPath(pf, "unitframe.units.focus.customTexts.!ClassIcon", "yOffset")
 
   -- Pet
   F.UpdateDBFromPath(pf, "unitframe.units.pet.customTexts.!Name", "yOffset")
@@ -2262,23 +2209,17 @@ function PF:UpdateProfileForTheme()
   -- Player
   F.UpdateDBFromPath(pf, "unitframe.units.player.customTexts.!Health", "yOffset")
   F.UpdateDBFromPath(pf, "unitframe.units.player.customTexts.!Name", "yOffset")
-  F.UpdateDBFromPath(pf, "unitframe.units.player.customTexts.!ClassIcon", "xOffset")
-  F.UpdateDBFromPath(pf, "unitframe.units.player.customTexts.!ClassIcon", "yOffset")
   F.UpdateDBFromPath(pf, "unitframe.units.player.raidRoleIcons", "yOffset")
 
   -- Party
   F.UpdateDBFromPath(pf, "unitframe.units.party.customTexts.!Name", "yOffset")
   F.UpdateDBFromPath(pf, "unitframe.units.party.customTexts.!Power", "text_format")
-  F.UpdateDBFromPath(pf, "unitframe.units.party.customTexts.!ClassIcon", "xOffset")
-  F.UpdateDBFromPath(pf, "unitframe.units.party.customTexts.!ClassIcon", "yOffset")
   F.UpdateDBFromPath(pf, "unitframe.units.party.raidRoleIcons", "yOffset")
 
   -- Target
   F.UpdateDBFromPath(pf, "unitframe.units.target.customTexts.!Health", "yOffset")
   F.UpdateDBFromPath(pf, "unitframe.units.target.customTexts.!Name", "yOffset")
   F.UpdateDBFromPath(pf, "unitframe.units.target.customTexts.!Power", "text_format")
-  F.UpdateDBFromPath(pf, "unitframe.units.target.customTexts.!ClassIcon", "xOffset")
-  F.UpdateDBFromPath(pf, "unitframe.units.target.customTexts.!ClassIcon", "yOffset")
   F.UpdateDBFromPath(pf, "unitframe.units.target.customTexts.!Classification", "yOffset")
   F.UpdateDBFromPath(pf, "unitframe.units.target.raidRoleIcons", "yOffset")
 
